@@ -13,9 +13,8 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route exact path='/Login' element={<Login />}></Route>
-      {/* <Route exact path='/' element={<Accueil />}></Route> */}
-      <Route exact path='/' element={< Accueil />}></Route>
+      <Route exact path='/' element={<Login />}></Route>
+      <Route exact path='/Accueil' element={< Accueil />}></Route>
       <Route exact path='/Liste' element={< Liste />}></Route>
       <Route exact path='/Fiche' element={< Fiche />}></Route>
       <Route exact path='/Produits' element={< Ajouter />}></Route>

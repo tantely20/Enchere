@@ -4,35 +4,6 @@ import {Header,Footer} from './Header';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function Modal({showModal,setShowModal,children}){
-    const params=new URLSearchParams(window.location.search);
-    var idProduit=params.get('id');
-    const url="https://wss5enchere-production.up.railway.app/produit?id="+idProduit+"";
-    const [data,setData]=useState([]);
-    useEffect(()=>{
-        axios.get(url)
-        .then(
-            res=>{
-                setData(res.data);
-            }
-        ).catch(
-            error=>{
-                console.error(error);
-            }
-        )
-    },[])
-    console.log(data);
-    return(
-        <div>
-            {showModal &&(
-                <div className='modalContent'>
-                    {children}
-                </div>
-            )}
-        </div>
-    );
-}
-
 function Fiche(){
     const params=new URLSearchParams(window.location.search);
     var idProduit=params.get('id');
@@ -40,20 +11,6 @@ function Fiche(){
     const [data,setData]=useState([]);
     useEffect(()=>{
         axios.get(url)
-        .then(
-            res=>{
-                setData(res.data);
-            }
-        ).catch(
-            error=>{
-                console.error(error);
-            }
-        )
-    },[])
-
-    const [participants,setParticipant]=useState([]);
-    useEffect(()=>{
-        axios.get('https://wss5enchere-production.up.railway.app/histoEnchereDetaille?idEnchere=1')
         .then(
             res=>{
                 setData(res.data);
@@ -137,53 +94,8 @@ function Rencherissement(){
         <div className="container" style={{width: '100%',marginLeft: '15%'}}>
         <div className="row" style={{width: '100%'}}>
             <div className="col">
-                <button className="btn btn-primary" type="button" style={{width : '20%',marginTop: '5%'}} onClick={()=>
-                    setShowModal(true)}>Rencherir</button>
-                    <Modal showModal={showModal} setShowModal={setShowModal}>
-                    <h2>Rencherire</h2>
-                    {data.map(produit=>
-                        <div className="col-md-6">
-                            <h5 style={{marginTop:'3%'}}>{produit.nom}</h5>
-                            <div>
-                                <label>Prix : {produit.prixminimal}</label>
-                            </div>
-                            <div>
-                                <label>Montant a encherire</label>
-                                <input type='number' name='montant'/>
-                            </div>
-                            <button className="btn btn-primary" type="button" onClick={()=>
-                                {
-                                    var http=new XMLHttpRequest();
-                                    let enchere=[];
-                                    var montant=document.getElementById("montant");
-                                    http.onreadystatechange=function(){
-                                        if(http.readyState===4 && http.status===200){
-                                            enchere=JSON.parse(http.response)
-                                            console.log(enchere);
-                                        }
-                                    };
-                                    http.open("GET","https://wss5enchere-production.up.railway.app/encherire?idenchere=1&montant="+montant.value+"&uuid=a3688507-f3b8-49bb-9b19-15608c7e6cc1");
-                                    http.send();
-                                    console.log("Ok");
-                                    setShowModal(false);
-                                }
-                                }>Valider</button>
-                        </div>
-                    )} 
-                    </Modal>
+                <button className="btn btn-primary" type="button" style={{width : '20%',marginTop: '5%'}} >Rencherir</button>
                 <div className="table-responsive" style={{marginTop: '5%',width: '700px'}}>
-                    <table className="table">
-                        <tbody>
-                        {participants.map(participant=>
-                            <tr style={{background: 'rgb(225,225,225)'}}>
-                                <td>
-                                    <h6 className="mb-0" style={{width: '50%'}}>Joueur:{participant.nom}</h6>
-                                </td>
-                                <td>Montant:{participant.montantpayer}</td>
-                            </tr>
-                        )}  
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

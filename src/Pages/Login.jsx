@@ -29,7 +29,7 @@ function Login(){
                                 window.location.href='/Accueil';
                             }
                         };
-                        http.open("GET","https://wss5enchere-production.up.railway.app/login?nom="+nom.value+"&mdp="+pswd.value+"");
+                        http.open("GET","https://wss5enchere-production.up.railway.app/login?nom=mic&mdp=root");
                         http.send();
                         console.log("Ok");
                     }
